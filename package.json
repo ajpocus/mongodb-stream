@@ -1,0 +1,13 @@
+{
+  "name": "mongodb-stream",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "latest",
+    "async": "latest",
+    "request": "2.x",
+    "node-oauth": "latest"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}
