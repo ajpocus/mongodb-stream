@@ -6,26 +6,40 @@ function MongoStream(opts) {
   stream.Writable.call(this, opts);
   
   if (!opts) { opts = {}; }
-  this._index = 1;
-  this._max = opts.max || 1000000;
-  this._db = opts.databaseUri || "mongodb://localhost/mongostream";
-  this._collection = opts.collection || "mongostream";
+  var self = this;
+  self._index = 1;
+  self._max = opts.max || 1000000;
+  self._db = opts.databaseUri || "mongodb://localhost/mongostream";
+  self._collection = opts.collection || "mongostream";
 }
 util.inherits(MongoStream, stream.Writable);
 
-MongoStream.prototype._write = function (chunk, encoding, cb) {
+MongoStream.prototype.init = function (cb) {
   var self = this;
-  var data = JSON.parse(chunk.toString());
+  
   MongoClient.connect(self._db, function (err, db) {
     if (err) { return cb(err); }
-    var collection = db.collection(self._collection);
-    collection.insert(data, function (err, docs) {
-      if (err) { return cb(err); }
-      
-      self._index += 1;
-      if (self._index >= self._max) { self.end(); }
-      return cb();
-    });
+    self._mongo = db;
+    return cb(null, self);
+  });
+};
+
+MongoStream.prototype._write = function (chunk, encoding, cb) {
+  var self = this;
+  try {
+    var data = JSON.parse(chunk.toString());
+  } catch (e) {
+    console.log(e);
+    return cb();
+  }
+  
+  var collection = self._mongo.collection(self._collection);
+  collection.insert(data, function (err, docs) {
+    if (err) { return cb(err); }
+    
+    self._index += 1;
+    if (self._index >= self._max) { self.end(); }
+    return cb(null);
   });
 };
 
