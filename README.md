@@ -11,7 +11,7 @@ Anywhere you'd like to stream data into mongodb, you can do it like this:
     var MongoStream = request('mongodb-stream');
     var stream = new MongoSream({
       databaseUri: "mongodb://local/host/test",
-      collection: "tweets
+      collection: "tweets"
     });
     stream.init(function (err, stream) {
       request(...).pipe(stream);    // the stream writes every instance to mongoDB
