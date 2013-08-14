@@ -38,7 +38,7 @@ MongoStream.prototype._write = function (chunk, encoding, cb) {
     if (err) { return cb(err); }
     
     self._index += 1;
-    if (self._index >= self._max) { self.end("\n"); return cb(null); }
+    if (self._index >= self._max) { self.end("\n"); return cb(new Error("stream end.")); }
     return cb(null);
   });
 };
