@@ -26,6 +26,7 @@ MongoStream.prototype.init = function (cb) {
 
 MongoStream.prototype._write = function (chunk, encoding, cb) {
   var self = this;
+  if (self._index >= self._max) { self.end("\n"); return cb(new Error("stream end.")); }
   try {
     var data = JSON.parse(chunk.toString());
   } catch (e) {
