@@ -7,7 +7,7 @@ function MongoStream(opts) {
   
   if (!opts) { opts = {}; }
   var self = this;
-  self._index = 1;
+  self._index = 0;
   self._max = opts.max || 1000000;
   self._db = opts.databaseUri || "mongodb://localhost/mongostream";
   self._collection = opts.collection || "mongostream";
@@ -38,7 +38,7 @@ MongoStream.prototype._write = function (chunk, encoding, cb) {
     if (err) { return cb(err); }
     
     self._index += 1;
-    if (self._index > self._max) { self.end(); }
+    if (self._index >= self._max) { self.end(); return cb(null); }
     return cb(null);
   });
 };
