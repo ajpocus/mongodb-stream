@@ -1,6 +1,6 @@
 {
   "name": "mongodb-stream",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "Austin Pocus <ajpocus@gmail.com>",
   "dependencies": {
     "underscore": "latest",
