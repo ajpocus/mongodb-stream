@@ -31,7 +31,7 @@ MongoStream.prototype._write = function (chunk, encoding, cb) {
     var data = JSON.parse(chunk.toString());
   } catch (e) {
     console.log(e);
-    return cb();
+    return cb(e);
   }
   
   var collection = self._mongo.collection(self._collection);
